@@ -1,0 +1,1551 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> OPEN statement_list CLOSE
+Rule 2     program -> error
+Rule 3     command -> PRINT print_list optend
+Rule 4     command -> ECHO print_list optend
+Rule 5     print_list -> print_list CONCAT print_item
+Rule 6     print_list -> print_item
+Rule 7     print_item -> STRING
+Rule 8     print_item -> expression
+Rule 9     expression -> expression PLUS expression
+Rule 10    expression -> expression MINUS expression
+Rule 11    expression -> expression TIMES expression
+Rule 12    expression -> expression DIVIDE expression
+Rule 13    expression -> expression MODULO expression
+Rule 14    comparison -> expression LTE expression
+Rule 15    comparison -> expression GTE expression
+Rule 16    comparison -> expression LT expression
+Rule 17    comparison -> expression GT expression
+Rule 18    comparison -> expression ET expression
+Rule 19    comparison -> expression NE expression
+Rule 20    expression -> NUMBER
+Rule 21    expression -> LPAREN expression RPAREN
+Rule 22    command -> ID EQUALS expression optend
+Rule 23    expression -> ID
+Rule 24    command -> IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
+Rule 25    command -> IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET
+Rule 26    statement_list -> statement_list statement
+Rule 27    statement_list -> statement
+Rule 28    statement -> command
+Rule 29    statement -> <empty>
+Rule 30    command -> WHILE LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
+Rule 31    optend -> SEMICOLON
+Rule 32    optend -> <empty>
+
+Terminals, with rules where they appear
+
+CLOSE                : 1
+CONCAT               : 5
+DIVIDE               : 12
+ECHO                 : 4
+ELSE                 : 25
+EQUALS               : 22
+ET                   : 18
+GT                   : 17
+GTE                  : 15
+ID                   : 22 23
+IF                   : 24 25
+LBRACKET             : 24 25 25 30
+LPAREN               : 21 24 25 30
+LT                   : 16
+LTE                  : 14
+MINUS                : 10
+MODULO               : 13
+NE                   : 19
+NUMBER               : 20
+OPEN                 : 1
+PLUS                 : 9
+PRINT                : 3
+RBRACKET             : 24 25 25 30
+RPAREN               : 21 24 25 30
+SEMICOLON            : 31
+STRING               : 7
+TIMES                : 11
+WHILE                : 30
+error                : 2
+
+Nonterminals, with rules where they appear
+
+command              : 28
+comparison           : 24 25 30
+expression           : 8 9 9 10 10 11 11 12 12 13 13 14 14 15 15 16 16 17 17 18 18 19 19 21 22
+optend               : 3 4 22
+print_item           : 5 6
+print_list           : 3 4 5
+program              : 0
+statement            : 26 27
+statement_list       : 1 24 25 25 26 30
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . OPEN statement_list CLOSE
+    (2) program -> . error
+
+    OPEN            shift and go to state 2
+    error           shift and go to state 3
+
+    program                        shift and go to state 1
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> OPEN . statement_list CLOSE
+    (26) statement_list -> . statement_list statement
+    (27) statement_list -> . statement
+    (28) statement -> . command
+    (29) statement -> .
+    (3) command -> . PRINT print_list optend
+    (4) command -> . ECHO print_list optend
+    (22) command -> . ID EQUALS expression optend
+    (24) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
+    (25) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET
+    (30) command -> . WHILE LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
+
+  ! shift/reduce conflict for PRINT resolved as shift
+  ! shift/reduce conflict for ECHO resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+    CLOSE           reduce using rule 29 (statement -> .)
+    PRINT           shift and go to state 7
+    ECHO            shift and go to state 8
+    ID              shift and go to state 9
+    IF              shift and go to state 10
+    WHILE           shift and go to state 11
+
+  ! PRINT           [ reduce using rule 29 (statement -> .) ]
+  ! ECHO            [ reduce using rule 29 (statement -> .) ]
+  ! ID              [ reduce using rule 29 (statement -> .) ]
+  ! IF              [ reduce using rule 29 (statement -> .) ]
+  ! WHILE           [ reduce using rule 29 (statement -> .) ]
+
+    statement_list                 shift and go to state 4
+    statement                      shift and go to state 5
+    command                        shift and go to state 6
+
+state 3
+
+    (2) program -> error .
+
+    $end            reduce using rule 2 (program -> error .)
+
+
+state 4
+
+    (1) program -> OPEN statement_list . CLOSE
+    (26) statement_list -> statement_list . statement
+    (28) statement -> . command
+    (29) statement -> .
+    (3) command -> . PRINT print_list optend
+    (4) command -> . ECHO print_list optend
+    (22) command -> . ID EQUALS expression optend
+    (24) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
+    (25) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET
+    (30) command -> . WHILE LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
+
+  ! shift/reduce conflict for CLOSE resolved as shift
+  ! shift/reduce conflict for PRINT resolved as shift
+  ! shift/reduce conflict for ECHO resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+    CLOSE           shift and go to state 12
+    PRINT           shift and go to state 7
+    ECHO            shift and go to state 8
+    ID              shift and go to state 9
+    IF              shift and go to state 10
+    WHILE           shift and go to state 11
+
+  ! CLOSE           [ reduce using rule 29 (statement -> .) ]
+  ! PRINT           [ reduce using rule 29 (statement -> .) ]
+  ! ECHO            [ reduce using rule 29 (statement -> .) ]
+  ! ID              [ reduce using rule 29 (statement -> .) ]
+  ! IF              [ reduce using rule 29 (statement -> .) ]
+  ! WHILE           [ reduce using rule 29 (statement -> .) ]
+
+    statement                      shift and go to state 13
+    command                        shift and go to state 6
+
+state 5
+
+    (27) statement_list -> statement .
+
+    CLOSE           reduce using rule 27 (statement_list -> statement .)
+    PRINT           reduce using rule 27 (statement_list -> statement .)
+    ECHO            reduce using rule 27 (statement_list -> statement .)
+    ID              reduce using rule 27 (statement_list -> statement .)
+    IF              reduce using rule 27 (statement_list -> statement .)
+    WHILE           reduce using rule 27 (statement_list -> statement .)
+    RBRACKET        reduce using rule 27 (statement_list -> statement .)
+
+
+state 6
+
+    (28) statement -> command .
+
+    CLOSE           reduce using rule 28 (statement -> command .)
+    PRINT           reduce using rule 28 (statement -> command .)
+    ECHO            reduce using rule 28 (statement -> command .)
+    ID              reduce using rule 28 (statement -> command .)
+    IF              reduce using rule 28 (statement -> command .)
+    WHILE           reduce using rule 28 (statement -> command .)
+    RBRACKET        reduce using rule 28 (statement -> command .)
+
+
+state 7
+
+    (3) command -> PRINT . print_list optend
+    (5) print_list -> . print_list CONCAT print_item
+    (6) print_list -> . print_item
+    (7) print_item -> . STRING
+    (8) print_item -> . expression
+    (9) expression -> . expression PLUS expression
+    (10) expression -> . expression MINUS expression
+    (11) expression -> . expression TIMES expression
+    (12) expression -> . expression DIVIDE expression
+    (13) expression -> . expression MODULO expression
+    (20) expression -> . NUMBER
+    (21) expression -> . LPAREN expression RPAREN
+    (23) expression -> . ID
+
+    STRING          shift and go to state 16
+    NUMBER          shift and go to state 18
+    LPAREN          shift and go to state 19
+    ID              shift and go to state 20
+
+    print_list                     shift and go to state 14
+    print_item                     shift and go to state 15
+    expression                     shift and go to state 17
+
+state 8
+
+    (4) command -> ECHO . print_list optend
+    (5) print_list -> . print_list CONCAT print_item
+    (6) print_list -> . print_item
+    (7) print_item -> . STRING
+    (8) print_item -> . expression
+    (9) expression -> . expression PLUS expression
+    (10) expression -> . expression MINUS expression
+    (11) expression -> . expression TIMES expression
+    (12) expression -> . expression DIVIDE expression
+    (13) expression -> . expression MODULO expression
+    (20) expression -> . NUMBER
+    (21) expression -> . LPAREN expression RPAREN
+    (23) expression -> . ID
+
+    STRING          shift and go to state 16
+    NUMBER          shift and go to state 18
+    LPAREN          shift and go to state 19
+    ID              shift and go to state 20
+
+    print_list                     shift and go to state 21
+    print_item                     shift and go to state 15
+    expression                     shift and go to state 17
+
+state 9
+
+    (22) command -> ID . EQUALS expression optend
+
+    EQUALS          shift and go to state 22
+
+
+state 10
+
+    (24) command -> IF . LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
+    (25) command -> IF . LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET
+
+    LPAREN          shift and go to state 23
+
+
+state 11
+
+    (30) command -> WHILE . LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
+
+    LPAREN          shift and go to state 24
+
+
+state 12
+
+    (1) program -> OPEN statement_list CLOSE .
+
+    $end            reduce using rule 1 (program -> OPEN statement_list CLOSE .)
+
+
+state 13
+
+    (26) statement_list -> statement_list statement .
+
+    CLOSE           reduce using rule 26 (statement_list -> statement_list statement .)
+    PRINT           reduce using rule 26 (statement_list -> statement_list statement .)
+    ECHO            reduce using rule 26 (statement_list -> statement_list statement .)
+    ID              reduce using rule 26 (statement_list -> statement_list statement .)
+    IF              reduce using rule 26 (statement_list -> statement_list statement .)
+    WHILE           reduce using rule 26 (statement_list -> statement_list statement .)
+    RBRACKET        reduce using rule 26 (statement_list -> statement_list statement .)
+
+
+state 14
+
+    (3) command -> PRINT print_list . optend
+    (5) print_list -> print_list . CONCAT print_item
+    (31) optend -> . SEMICOLON
+    (32) optend -> .
+
+    CONCAT          shift and go to state 26
+    SEMICOLON       shift and go to state 27
+    CLOSE           reduce using rule 32 (optend -> .)
+    PRINT           reduce using rule 32 (optend -> .)
+    ECHO            reduce using rule 32 (optend -> .)
+    ID              reduce using rule 32 (optend -> .)
+    IF              reduce using rule 32 (optend -> .)
+    WHILE           reduce using rule 32 (optend -> .)
+    RBRACKET        reduce using rule 32 (optend -> .)
+
+    optend                         shift and go to state 25
+
+state 15
+
+    (6) print_list -> print_item .
+
+    CONCAT          reduce using rule 6 (print_list -> print_item .)
+    SEMICOLON       reduce using rule 6 (print_list -> print_item .)
+    CLOSE           reduce using rule 6 (print_list -> print_item .)
+    PRINT           reduce using rule 6 (print_list -> print_item .)
+    ECHO            reduce using rule 6 (print_list -> print_item .)
+    ID              reduce using rule 6 (print_list -> print_item .)
+    IF              reduce using rule 6 (print_list -> print_item .)
+    WHILE           reduce using rule 6 (print_list -> print_item .)
+    RBRACKET        reduce using rule 6 (print_list -> print_item .)
+
+
+state 16
+
+    (7) print_item -> STRING .
+
+    CONCAT          reduce using rule 7 (print_item -> STRING .)
+    SEMICOLON       reduce using rule 7 (print_item -> STRING .)
+    CLOSE           reduce using rule 7 (print_item -> STRING .)
+    PRINT           reduce using rule 7 (print_item -> STRING .)
+    ECHO            reduce using rule 7 (print_item -> STRING .)
+    ID              reduce using rule 7 (print_item -> STRING .)
+    IF              reduce using rule 7 (print_item -> STRING .)
+    WHILE           reduce using rule 7 (print_item -> STRING .)
+    RBRACKET        reduce using rule 7 (print_item -> STRING .)
+
+
+state 17
+
+    (8) print_item -> expression .
+    (9) expression -> expression . PLUS expression
+    (10) expression -> expression . MINUS expression
+    (11) expression -> expression . TIMES expression
+    (12) expression -> expression . DIVIDE expression
+    (13) expression -> expression . MODULO expression
+
+    CONCAT          reduce using rule 8 (print_item -> expression .)
+    SEMICOLON       reduce using rule 8 (print_item -> expression .)
+    CLOSE           reduce using rule 8 (print_item -> expression .)
+    PRINT           reduce using rule 8 (print_item -> expression .)
+    ECHO            reduce using rule 8 (print_item -> expression .)
+    ID              reduce using rule 8 (print_item -> expression .)
+    IF              reduce using rule 8 (print_item -> expression .)
+    WHILE           reduce using rule 8 (print_item -> expression .)
+    RBRACKET        reduce using rule 8 (print_item -> expression .)
+    PLUS            shift and go to state 28
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MODULO          shift and go to state 32
+
+
+state 18
+
+    (20) expression -> NUMBER .
+
+    PLUS            reduce using rule 20 (expression -> NUMBER .)
+    MINUS           reduce using rule 20 (expression -> NUMBER .)
+    TIMES           reduce using rule 20 (expression -> NUMBER .)
+    DIVIDE          reduce using rule 20 (expression -> NUMBER .)
+    MODULO          reduce using rule 20 (expression -> NUMBER .)
+    CONCAT          reduce using rule 20 (expression -> NUMBER .)
+    SEMICOLON       reduce using rule 20 (expression -> NUMBER .)
+    CLOSE           reduce using rule 20 (expression -> NUMBER .)
+    PRINT           reduce using rule 20 (expression -> NUMBER .)
+    ECHO            reduce using rule 20 (expression -> NUMBER .)
+    ID              reduce using rule 20 (expression -> NUMBER .)
+    IF              reduce using rule 20 (expression -> NUMBER .)
+    WHILE           reduce using rule 20 (expression -> NUMBER .)
+    RBRACKET        reduce using rule 20 (expression -> NUMBER .)
+    RPAREN          reduce using rule 20 (expression -> NUMBER .)
+    LTE             reduce using rule 20 (expression -> NUMBER .)
+    GTE             reduce using rule 20 (expression -> NUMBER .)
+    LT              reduce using rule 20 (expression -> NUMBER .)
+    GT              reduce using rule 20 (expression -> NUMBER .)
+    ET              reduce using rule 20 (expression -> NUMBER .)
+    NE              reduce using rule 20 (expression -> NUMBER .)
+
+
+state 19
+
+    (21) expression -> LPAREN . expression RPAREN
+    (9) expression -> . expression PLUS expression
+    (10) expression -> . expression MINUS expression
+    (11) expression -> . expression TIMES expression
+    (12) expression -> . expression DIVIDE expression
+    (13) expression -> . expression MODULO expression
+    (20) expression -> . NUMBER
+    (21) expression -> . LPAREN expression RPAREN
+    (23) expression -> . ID
+
+    NUMBER          shift and go to state 18
+    LPAREN          shift and go to state 19
+    ID              shift and go to state 20
+
+    expression                     shift and go to state 33
+
+state 20
+
+    (23) expression -> ID .
+
+    PLUS            reduce using rule 23 (expression -> ID .)
+    MINUS           reduce using rule 23 (expression -> ID .)
+    TIMES           reduce using rule 23 (expression -> ID .)
+    DIVIDE          reduce using rule 23 (expression -> ID .)
+    MODULO          reduce using rule 23 (expression -> ID .)
+    CONCAT          reduce using rule 23 (expression -> ID .)
+    SEMICOLON       reduce using rule 23 (expression -> ID .)
+    CLOSE           reduce using rule 23 (expression -> ID .)
+    PRINT           reduce using rule 23 (expression -> ID .)
+    ECHO            reduce using rule 23 (expression -> ID .)
+    ID              reduce using rule 23 (expression -> ID .)
+    IF              reduce using rule 23 (expression -> ID .)
+    WHILE           reduce using rule 23 (expression -> ID .)
+    RBRACKET        reduce using rule 23 (expression -> ID .)
+    RPAREN          reduce using rule 23 (expression -> ID .)
+    LTE             reduce using rule 23 (expression -> ID .)
+    GTE             reduce using rule 23 (expression -> ID .)
+    LT              reduce using rule 23 (expression -> ID .)
+    GT              reduce using rule 23 (expression -> ID .)
+    ET              reduce using rule 23 (expression -> ID .)
+    NE              reduce using rule 23 (expression -> ID .)
+
+
+state 21
+
+    (4) command -> ECHO print_list . optend
+    (5) print_list -> print_list . CONCAT print_item
+    (31) optend -> . SEMICOLON
+    (32) optend -> .
+
+    CONCAT          shift and go to state 26
+    SEMICOLON       shift and go to state 27
+    CLOSE           reduce using rule 32 (optend -> .)
+    PRINT           reduce using rule 32 (optend -> .)
+    ECHO            reduce using rule 32 (optend -> .)
+    ID              reduce using rule 32 (optend -> .)
+    IF              reduce using rule 32 (optend -> .)
+    WHILE           reduce using rule 32 (optend -> .)
+    RBRACKET        reduce using rule 32 (optend -> .)
+
+    optend                         shift and go to state 34
+
+state 22
+
+    (22) command -> ID EQUALS . expression optend
+    (9) expression -> . expression PLUS expression
+    (10) expression -> . expression MINUS expression
+    (11) expression -> . expression TIMES expression
+    (12) expression -> . expression DIVIDE expression
+    (13) expression -> . expression MODULO expression
+    (20) expression -> . NUMBER
+    (21) expression -> . LPAREN expression RPAREN
+    (23) expression -> . ID
+
+    NUMBER          shift and go to state 18
+    LPAREN          shift and go to state 19
+    ID              shift and go to state 20
+
+    expression                     shift and go to state 35
+
+state 23
+
+    (24) command -> IF LPAREN . comparison RPAREN LBRACKET statement_list RBRACKET
+    (25) command -> IF LPAREN . comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET
+    (14) comparison -> . expression LTE expression
+    (15) comparison -> . expression GTE expression
+    (16) comparison -> . expression LT expression
+    (17) comparison -> . expression GT expression
+    (18) comparison -> . expression ET expression
+    (19) comparison -> . expression NE expression
+    (9) expression -> . expression PLUS expression
+    (10) expression -> . expression MINUS expression
+    (11) expression -> . expression TIMES expression
+    (12) expression -> . expression DIVIDE expression
+    (13) expression -> . expression MODULO expression
+    (20) expression -> . NUMBER
+    (21) expression -> . LPAREN expression RPAREN
+    (23) expression -> . ID
+
+    NUMBER          shift and go to state 18
+    LPAREN          shift and go to state 19
+    ID              shift and go to state 20
+
+    comparison                     shift and go to state 36
+    expression                     shift and go to state 37
+
+state 24
+
+    (30) command -> WHILE LPAREN . comparison RPAREN LBRACKET statement_list RBRACKET
+    (14) comparison -> . expression LTE expression
+    (15) comparison -> . expression GTE expression
+    (16) comparison -> . expression LT expression
+    (17) comparison -> . expression GT expression
+    (18) comparison -> . expression ET expression
+    (19) comparison -> . expression NE expression
+    (9) expression -> . expression PLUS expression
+    (10) expression -> . expression MINUS expression
+    (11) expression -> . expression TIMES expression
+    (12) expression -> . expression DIVIDE expression
+    (13) expression -> . expression MODULO expression
+    (20) expression -> . NUMBER
+    (21) expression -> . LPAREN expression RPAREN
+    (23) expression -> . ID
+
+    NUMBER          shift and go to state 18
+    LPAREN          shift and go to state 19
+    ID              shift and go to state 20
+
+    comparison                     shift and go to state 38
+    expression                     shift and go to state 37
+
+state 25
+
+    (3) command -> PRINT print_list optend .
+
+    CLOSE           reduce using rule 3 (command -> PRINT print_list optend .)
+    PRINT           reduce using rule 3 (command -> PRINT print_list optend .)
+    ECHO            reduce using rule 3 (command -> PRINT print_list optend .)
+    ID              reduce using rule 3 (command -> PRINT print_list optend .)
+    IF              reduce using rule 3 (command -> PRINT print_list optend .)
+    WHILE           reduce using rule 3 (command -> PRINT print_list optend .)
+    RBRACKET        reduce using rule 3 (command -> PRINT print_list optend .)
+
+
+state 26
+
+    (5) print_list -> print_list CONCAT . print_item
+    (7) print_item -> . STRING
+    (8) print_item -> . expression
+    (9) expression -> . expression PLUS expression
+    (10) expression -> . expression MINUS expression
+    (11) expression -> . expression TIMES expression
+    (12) expression -> . expression DIVIDE expression
+    (13) expression -> . expression MODULO expression
+    (20) expression -> . NUMBER
+    (21) expression -> . LPAREN expression RPAREN
+    (23) expression -> . ID
+
+    STRING          shift and go to state 16
+    NUMBER          shift and go to state 18
+    LPAREN          shift and go to state 19
+    ID              shift and go to state 20
+
+    print_item                     shift and go to state 39
+    expression                     shift and go to state 17
+
+state 27
+
+    (31) optend -> SEMICOLON .
+
+    CLOSE           reduce using rule 31 (optend -> SEMICOLON .)
+    PRINT           reduce using rule 31 (optend -> SEMICOLON .)
+    ECHO            reduce using rule 31 (optend -> SEMICOLON .)
+    ID              reduce using rule 31 (optend -> SEMICOLON .)
+    IF              reduce using rule 31 (optend -> SEMICOLON .)
+    WHILE           reduce using rule 31 (optend -> SEMICOLON .)
+    RBRACKET        reduce using rule 31 (optend -> SEMICOLON .)
+
+
+state 28
+
+    (9) expression -> expression PLUS . expression
+    (9) expression -> . expression PLUS expression
+    (10) expression -> . expression MINUS expression
+    (11) expression -> . expression TIMES expression
+    (12) expression -> . expression DIVIDE expression
+    (13) expression -> . expression MODULO expression
+    (20) expression -> . NUMBER
+    (21) expression -> . LPAREN expression RPAREN
+    (23) expression -> . ID
+
+    NUMBER          shift and go to state 18
+    LPAREN          shift and go to state 19
+    ID              shift and go to state 20
+
+    expression                     shift and go to state 40
+
+state 29
+
+    (10) expression -> expression MINUS . expression
+    (9) expression -> . expression PLUS expression
+    (10) expression -> . expression MINUS expression
+    (11) expression -> . expression TIMES expression
+    (12) expression -> . expression DIVIDE expression
+    (13) expression -> . expression MODULO expression
+    (20) expression -> . NUMBER
+    (21) expression -> . LPAREN expression RPAREN
+    (23) expression -> . ID
+
+    NUMBER          shift and go to state 18
+    LPAREN          shift and go to state 19
+    ID              shift and go to state 20
+
+    expression                     shift and go to state 41
+
+state 30
+
+    (11) expression -> expression TIMES . expression
+    (9) expression -> . expression PLUS expression
+    (10) expression -> . expression MINUS expression
+    (11) expression -> . expression TIMES expression
+    (12) expression -> . expression DIVIDE expression
+    (13) expression -> . expression MODULO expression
+    (20) expression -> . NUMBER
+    (21) expression -> . LPAREN expression RPAREN
+    (23) expression -> . ID
+
+    NUMBER          shift and go to state 18
+    LPAREN          shift and go to state 19
+    ID              shift and go to state 20
+
+    expression                     shift and go to state 42
+
+state 31
+
+    (12) expression -> expression DIVIDE . expression
+    (9) expression -> . expression PLUS expression
+    (10) expression -> . expression MINUS expression
+    (11) expression -> . expression TIMES expression
+    (12) expression -> . expression DIVIDE expression
+    (13) expression -> . expression MODULO expression
+    (20) expression -> . NUMBER
+    (21) expression -> . LPAREN expression RPAREN
+    (23) expression -> . ID
+
+    NUMBER          shift and go to state 18
+    LPAREN          shift and go to state 19
+    ID              shift and go to state 20
+
+    expression                     shift and go to state 43
+
+state 32
+
+    (13) expression -> expression MODULO . expression
+    (9) expression -> . expression PLUS expression
+    (10) expression -> . expression MINUS expression
+    (11) expression -> . expression TIMES expression
+    (12) expression -> . expression DIVIDE expression
+    (13) expression -> . expression MODULO expression
+    (20) expression -> . NUMBER
+    (21) expression -> . LPAREN expression RPAREN
+    (23) expression -> . ID
+
+    NUMBER          shift and go to state 18
+    LPAREN          shift and go to state 19
+    ID              shift and go to state 20
+
+    expression                     shift and go to state 44
+
+state 33
+
+    (21) expression -> LPAREN expression . RPAREN
+    (9) expression -> expression . PLUS expression
+    (10) expression -> expression . MINUS expression
+    (11) expression -> expression . TIMES expression
+    (12) expression -> expression . DIVIDE expression
+    (13) expression -> expression . MODULO expression
+
+    RPAREN          shift and go to state 45
+    PLUS            shift and go to state 28
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MODULO          shift and go to state 32
+
+
+state 34
+
+    (4) command -> ECHO print_list optend .
+
+    CLOSE           reduce using rule 4 (command -> ECHO print_list optend .)
+    PRINT           reduce using rule 4 (command -> ECHO print_list optend .)
+    ECHO            reduce using rule 4 (command -> ECHO print_list optend .)
+    ID              reduce using rule 4 (command -> ECHO print_list optend .)
+    IF              reduce using rule 4 (command -> ECHO print_list optend .)
+    WHILE           reduce using rule 4 (command -> ECHO print_list optend .)
+    RBRACKET        reduce using rule 4 (command -> ECHO print_list optend .)
+
+
+state 35
+
+    (22) command -> ID EQUALS expression . optend
+    (9) expression -> expression . PLUS expression
+    (10) expression -> expression . MINUS expression
+    (11) expression -> expression . TIMES expression
+    (12) expression -> expression . DIVIDE expression
+    (13) expression -> expression . MODULO expression
+    (31) optend -> . SEMICOLON
+    (32) optend -> .
+
+    PLUS            shift and go to state 28
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MODULO          shift and go to state 32
+    SEMICOLON       shift and go to state 27
+    CLOSE           reduce using rule 32 (optend -> .)
+    PRINT           reduce using rule 32 (optend -> .)
+    ECHO            reduce using rule 32 (optend -> .)
+    ID              reduce using rule 32 (optend -> .)
+    IF              reduce using rule 32 (optend -> .)
+    WHILE           reduce using rule 32 (optend -> .)
+    RBRACKET        reduce using rule 32 (optend -> .)
+
+    optend                         shift and go to state 46
+
+state 36
+
+    (24) command -> IF LPAREN comparison . RPAREN LBRACKET statement_list RBRACKET
+    (25) command -> IF LPAREN comparison . RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET
+
+    RPAREN          shift and go to state 47
+
+
+state 37
+
+    (14) comparison -> expression . LTE expression
+    (15) comparison -> expression . GTE expression
+    (16) comparison -> expression . LT expression
+    (17) comparison -> expression . GT expression
+    (18) comparison -> expression . ET expression
+    (19) comparison -> expression . NE expression
+    (9) expression -> expression . PLUS expression
+    (10) expression -> expression . MINUS expression
+    (11) expression -> expression . TIMES expression
+    (12) expression -> expression . DIVIDE expression
+    (13) expression -> expression . MODULO expression
+
+    LTE             shift and go to state 48
+    GTE             shift and go to state 49
+    LT              shift and go to state 50
+    GT              shift and go to state 51
+    ET              shift and go to state 52
+    NE              shift and go to state 53
+    PLUS            shift and go to state 28
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MODULO          shift and go to state 32
+
+
+state 38
+
+    (30) command -> WHILE LPAREN comparison . RPAREN LBRACKET statement_list RBRACKET
+
+    RPAREN          shift and go to state 54
+
+
+state 39
+
+    (5) print_list -> print_list CONCAT print_item .
+
+    CONCAT          reduce using rule 5 (print_list -> print_list CONCAT print_item .)
+    SEMICOLON       reduce using rule 5 (print_list -> print_list CONCAT print_item .)
+    CLOSE           reduce using rule 5 (print_list -> print_list CONCAT print_item .)
+    PRINT           reduce using rule 5 (print_list -> print_list CONCAT print_item .)
+    ECHO            reduce using rule 5 (print_list -> print_list CONCAT print_item .)
+    ID              reduce using rule 5 (print_list -> print_list CONCAT print_item .)
+    IF              reduce using rule 5 (print_list -> print_list CONCAT print_item .)
+    WHILE           reduce using rule 5 (print_list -> print_list CONCAT print_item .)
+    RBRACKET        reduce using rule 5 (print_list -> print_list CONCAT print_item .)
+
+
+state 40
+
+    (9) expression -> expression PLUS expression .
+    (9) expression -> expression . PLUS expression
+    (10) expression -> expression . MINUS expression
+    (11) expression -> expression . TIMES expression
+    (12) expression -> expression . DIVIDE expression
+    (13) expression -> expression . MODULO expression
+
+    PLUS            reduce using rule 9 (expression -> expression PLUS expression .)
+    MINUS           reduce using rule 9 (expression -> expression PLUS expression .)
+    CONCAT          reduce using rule 9 (expression -> expression PLUS expression .)
+    SEMICOLON       reduce using rule 9 (expression -> expression PLUS expression .)
+    CLOSE           reduce using rule 9 (expression -> expression PLUS expression .)
+    PRINT           reduce using rule 9 (expression -> expression PLUS expression .)
+    ECHO            reduce using rule 9 (expression -> expression PLUS expression .)
+    ID              reduce using rule 9 (expression -> expression PLUS expression .)
+    IF              reduce using rule 9 (expression -> expression PLUS expression .)
+    WHILE           reduce using rule 9 (expression -> expression PLUS expression .)
+    RBRACKET        reduce using rule 9 (expression -> expression PLUS expression .)
+    RPAREN          reduce using rule 9 (expression -> expression PLUS expression .)
+    LTE             reduce using rule 9 (expression -> expression PLUS expression .)
+    GTE             reduce using rule 9 (expression -> expression PLUS expression .)
+    LT              reduce using rule 9 (expression -> expression PLUS expression .)
+    GT              reduce using rule 9 (expression -> expression PLUS expression .)
+    ET              reduce using rule 9 (expression -> expression PLUS expression .)
+    NE              reduce using rule 9 (expression -> expression PLUS expression .)
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MODULO          shift and go to state 32
+
+  ! TIMES           [ reduce using rule 9 (expression -> expression PLUS expression .) ]
+  ! DIVIDE          [ reduce using rule 9 (expression -> expression PLUS expression .) ]
+  ! MODULO          [ reduce using rule 9 (expression -> expression PLUS expression .) ]
+  ! PLUS            [ shift and go to state 28 ]
+  ! MINUS           [ shift and go to state 29 ]
+
+
+state 41
+
+    (10) expression -> expression MINUS expression .
+    (9) expression -> expression . PLUS expression
+    (10) expression -> expression . MINUS expression
+    (11) expression -> expression . TIMES expression
+    (12) expression -> expression . DIVIDE expression
+    (13) expression -> expression . MODULO expression
+
+    PLUS            reduce using rule 10 (expression -> expression MINUS expression .)
+    MINUS           reduce using rule 10 (expression -> expression MINUS expression .)
+    CONCAT          reduce using rule 10 (expression -> expression MINUS expression .)
+    SEMICOLON       reduce using rule 10 (expression -> expression MINUS expression .)
+    CLOSE           reduce using rule 10 (expression -> expression MINUS expression .)
+    PRINT           reduce using rule 10 (expression -> expression MINUS expression .)
+    ECHO            reduce using rule 10 (expression -> expression MINUS expression .)
+    ID              reduce using rule 10 (expression -> expression MINUS expression .)
+    IF              reduce using rule 10 (expression -> expression MINUS expression .)
+    WHILE           reduce using rule 10 (expression -> expression MINUS expression .)
+    RBRACKET        reduce using rule 10 (expression -> expression MINUS expression .)
+    RPAREN          reduce using rule 10 (expression -> expression MINUS expression .)
+    LTE             reduce using rule 10 (expression -> expression MINUS expression .)
+    GTE             reduce using rule 10 (expression -> expression MINUS expression .)
+    LT              reduce using rule 10 (expression -> expression MINUS expression .)
+    GT              reduce using rule 10 (expression -> expression MINUS expression .)
+    ET              reduce using rule 10 (expression -> expression MINUS expression .)
+    NE              reduce using rule 10 (expression -> expression MINUS expression .)
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MODULO          shift and go to state 32
+
+  ! TIMES           [ reduce using rule 10 (expression -> expression MINUS expression .) ]
+  ! DIVIDE          [ reduce using rule 10 (expression -> expression MINUS expression .) ]
+  ! MODULO          [ reduce using rule 10 (expression -> expression MINUS expression .) ]
+  ! PLUS            [ shift and go to state 28 ]
+  ! MINUS           [ shift and go to state 29 ]
+
+
+state 42
+
+    (11) expression -> expression TIMES expression .
+    (9) expression -> expression . PLUS expression
+    (10) expression -> expression . MINUS expression
+    (11) expression -> expression . TIMES expression
+    (12) expression -> expression . DIVIDE expression
+    (13) expression -> expression . MODULO expression
+
+    PLUS            reduce using rule 11 (expression -> expression TIMES expression .)
+    MINUS           reduce using rule 11 (expression -> expression TIMES expression .)
+    TIMES           reduce using rule 11 (expression -> expression TIMES expression .)
+    DIVIDE          reduce using rule 11 (expression -> expression TIMES expression .)
+    MODULO          reduce using rule 11 (expression -> expression TIMES expression .)
+    CONCAT          reduce using rule 11 (expression -> expression TIMES expression .)
+    SEMICOLON       reduce using rule 11 (expression -> expression TIMES expression .)
+    CLOSE           reduce using rule 11 (expression -> expression TIMES expression .)
+    PRINT           reduce using rule 11 (expression -> expression TIMES expression .)
+    ECHO            reduce using rule 11 (expression -> expression TIMES expression .)
+    ID              reduce using rule 11 (expression -> expression TIMES expression .)
+    IF              reduce using rule 11 (expression -> expression TIMES expression .)
+    WHILE           reduce using rule 11 (expression -> expression TIMES expression .)
+    RBRACKET        reduce using rule 11 (expression -> expression TIMES expression .)
+    RPAREN          reduce using rule 11 (expression -> expression TIMES expression .)
+    LTE             reduce using rule 11 (expression -> expression TIMES expression .)
+    GTE             reduce using rule 11 (expression -> expression TIMES expression .)
+    LT              reduce using rule 11 (expression -> expression TIMES expression .)
+    GT              reduce using rule 11 (expression -> expression TIMES expression .)
+    ET              reduce using rule 11 (expression -> expression TIMES expression .)
+    NE              reduce using rule 11 (expression -> expression TIMES expression .)
+
+  ! PLUS            [ shift and go to state 28 ]
+  ! MINUS           [ shift and go to state 29 ]
+  ! TIMES           [ shift and go to state 30 ]
+  ! DIVIDE          [ shift and go to state 31 ]
+  ! MODULO          [ shift and go to state 32 ]
+
+
+state 43
+
+    (12) expression -> expression DIVIDE expression .
+    (9) expression -> expression . PLUS expression
+    (10) expression -> expression . MINUS expression
+    (11) expression -> expression . TIMES expression
+    (12) expression -> expression . DIVIDE expression
+    (13) expression -> expression . MODULO expression
+
+    PLUS            reduce using rule 12 (expression -> expression DIVIDE expression .)
+    MINUS           reduce using rule 12 (expression -> expression DIVIDE expression .)
+    TIMES           reduce using rule 12 (expression -> expression DIVIDE expression .)
+    DIVIDE          reduce using rule 12 (expression -> expression DIVIDE expression .)
+    MODULO          reduce using rule 12 (expression -> expression DIVIDE expression .)
+    CONCAT          reduce using rule 12 (expression -> expression DIVIDE expression .)
+    SEMICOLON       reduce using rule 12 (expression -> expression DIVIDE expression .)
+    CLOSE           reduce using rule 12 (expression -> expression DIVIDE expression .)
+    PRINT           reduce using rule 12 (expression -> expression DIVIDE expression .)
+    ECHO            reduce using rule 12 (expression -> expression DIVIDE expression .)
+    ID              reduce using rule 12 (expression -> expression DIVIDE expression .)
+    IF              reduce using rule 12 (expression -> expression DIVIDE expression .)
+    WHILE           reduce using rule 12 (expression -> expression DIVIDE expression .)
+    RBRACKET        reduce using rule 12 (expression -> expression DIVIDE expression .)
+    RPAREN          reduce using rule 12 (expression -> expression DIVIDE expression .)
+    LTE             reduce using rule 12 (expression -> expression DIVIDE expression .)
+    GTE             reduce using rule 12 (expression -> expression DIVIDE expression .)
+    LT              reduce using rule 12 (expression -> expression DIVIDE expression .)
+    GT              reduce using rule 12 (expression -> expression DIVIDE expression .)
+    ET              reduce using rule 12 (expression -> expression DIVIDE expression .)
+    NE              reduce using rule 12 (expression -> expression DIVIDE expression .)
+
+  ! PLUS            [ shift and go to state 28 ]
+  ! MINUS           [ shift and go to state 29 ]
+  ! TIMES           [ shift and go to state 30 ]
+  ! DIVIDE          [ shift and go to state 31 ]
+  ! MODULO          [ shift and go to state 32 ]
+
+
+state 44
+
+    (13) expression -> expression MODULO expression .
+    (9) expression -> expression . PLUS expression
+    (10) expression -> expression . MINUS expression
+    (11) expression -> expression . TIMES expression
+    (12) expression -> expression . DIVIDE expression
+    (13) expression -> expression . MODULO expression
+
+    PLUS            reduce using rule 13 (expression -> expression MODULO expression .)
+    MINUS           reduce using rule 13 (expression -> expression MODULO expression .)
+    TIMES           reduce using rule 13 (expression -> expression MODULO expression .)
+    DIVIDE          reduce using rule 13 (expression -> expression MODULO expression .)
+    MODULO          reduce using rule 13 (expression -> expression MODULO expression .)
+    CONCAT          reduce using rule 13 (expression -> expression MODULO expression .)
+    SEMICOLON       reduce using rule 13 (expression -> expression MODULO expression .)
+    CLOSE           reduce using rule 13 (expression -> expression MODULO expression .)
+    PRINT           reduce using rule 13 (expression -> expression MODULO expression .)
+    ECHO            reduce using rule 13 (expression -> expression MODULO expression .)
+    ID              reduce using rule 13 (expression -> expression MODULO expression .)
+    IF              reduce using rule 13 (expression -> expression MODULO expression .)
+    WHILE           reduce using rule 13 (expression -> expression MODULO expression .)
+    RBRACKET        reduce using rule 13 (expression -> expression MODULO expression .)
+    RPAREN          reduce using rule 13 (expression -> expression MODULO expression .)
+    LTE             reduce using rule 13 (expression -> expression MODULO expression .)
+    GTE             reduce using rule 13 (expression -> expression MODULO expression .)
+    LT              reduce using rule 13 (expression -> expression MODULO expression .)
+    GT              reduce using rule 13 (expression -> expression MODULO expression .)
+    ET              reduce using rule 13 (expression -> expression MODULO expression .)
+    NE              reduce using rule 13 (expression -> expression MODULO expression .)
+
+  ! PLUS            [ shift and go to state 28 ]
+  ! MINUS           [ shift and go to state 29 ]
+  ! TIMES           [ shift and go to state 30 ]
+  ! DIVIDE          [ shift and go to state 31 ]
+  ! MODULO          [ shift and go to state 32 ]
+
+
+state 45
+
+    (21) expression -> LPAREN expression RPAREN .
+
+    PLUS            reduce using rule 21 (expression -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 21 (expression -> LPAREN expression RPAREN .)
+    TIMES           reduce using rule 21 (expression -> LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 21 (expression -> LPAREN expression RPAREN .)
+    MODULO          reduce using rule 21 (expression -> LPAREN expression RPAREN .)
+    CONCAT          reduce using rule 21 (expression -> LPAREN expression RPAREN .)
+    SEMICOLON       reduce using rule 21 (expression -> LPAREN expression RPAREN .)
+    CLOSE           reduce using rule 21 (expression -> LPAREN expression RPAREN .)
+    PRINT           reduce using rule 21 (expression -> LPAREN expression RPAREN .)
+    ECHO            reduce using rule 21 (expression -> LPAREN expression RPAREN .)
+    ID              reduce using rule 21 (expression -> LPAREN expression RPAREN .)
+    IF              reduce using rule 21 (expression -> LPAREN expression RPAREN .)
+    WHILE           reduce using rule 21 (expression -> LPAREN expression RPAREN .)
+    RBRACKET        reduce using rule 21 (expression -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 21 (expression -> LPAREN expression RPAREN .)
+    LTE             reduce using rule 21 (expression -> LPAREN expression RPAREN .)
+    GTE             reduce using rule 21 (expression -> LPAREN expression RPAREN .)
+    LT              reduce using rule 21 (expression -> LPAREN expression RPAREN .)
+    GT              reduce using rule 21 (expression -> LPAREN expression RPAREN .)
+    ET              reduce using rule 21 (expression -> LPAREN expression RPAREN .)
+    NE              reduce using rule 21 (expression -> LPAREN expression RPAREN .)
+
+
+state 46
+
+    (22) command -> ID EQUALS expression optend .
+
+    CLOSE           reduce using rule 22 (command -> ID EQUALS expression optend .)
+    PRINT           reduce using rule 22 (command -> ID EQUALS expression optend .)
+    ECHO            reduce using rule 22 (command -> ID EQUALS expression optend .)
+    ID              reduce using rule 22 (command -> ID EQUALS expression optend .)
+    IF              reduce using rule 22 (command -> ID EQUALS expression optend .)
+    WHILE           reduce using rule 22 (command -> ID EQUALS expression optend .)
+    RBRACKET        reduce using rule 22 (command -> ID EQUALS expression optend .)
+
+
+state 47
+
+    (24) command -> IF LPAREN comparison RPAREN . LBRACKET statement_list RBRACKET
+    (25) command -> IF LPAREN comparison RPAREN . LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET
+
+    LBRACKET        shift and go to state 55
+
+
+state 48
+
+    (14) comparison -> expression LTE . expression
+    (9) expression -> . expression PLUS expression
+    (10) expression -> . expression MINUS expression
+    (11) expression -> . expression TIMES expression
+    (12) expression -> . expression DIVIDE expression
+    (13) expression -> . expression MODULO expression
+    (20) expression -> . NUMBER
+    (21) expression -> . LPAREN expression RPAREN
+    (23) expression -> . ID
+
+    NUMBER          shift and go to state 18
+    LPAREN          shift and go to state 19
+    ID              shift and go to state 20
+
+    expression                     shift and go to state 56
+
+state 49
+
+    (15) comparison -> expression GTE . expression
+    (9) expression -> . expression PLUS expression
+    (10) expression -> . expression MINUS expression
+    (11) expression -> . expression TIMES expression
+    (12) expression -> . expression DIVIDE expression
+    (13) expression -> . expression MODULO expression
+    (20) expression -> . NUMBER
+    (21) expression -> . LPAREN expression RPAREN
+    (23) expression -> . ID
+
+    NUMBER          shift and go to state 18
+    LPAREN          shift and go to state 19
+    ID              shift and go to state 20
+
+    expression                     shift and go to state 57
+
+state 50
+
+    (16) comparison -> expression LT . expression
+    (9) expression -> . expression PLUS expression
+    (10) expression -> . expression MINUS expression
+    (11) expression -> . expression TIMES expression
+    (12) expression -> . expression DIVIDE expression
+    (13) expression -> . expression MODULO expression
+    (20) expression -> . NUMBER
+    (21) expression -> . LPAREN expression RPAREN
+    (23) expression -> . ID
+
+    NUMBER          shift and go to state 18
+    LPAREN          shift and go to state 19
+    ID              shift and go to state 20
+
+    expression                     shift and go to state 58
+
+state 51
+
+    (17) comparison -> expression GT . expression
+    (9) expression -> . expression PLUS expression
+    (10) expression -> . expression MINUS expression
+    (11) expression -> . expression TIMES expression
+    (12) expression -> . expression DIVIDE expression
+    (13) expression -> . expression MODULO expression
+    (20) expression -> . NUMBER
+    (21) expression -> . LPAREN expression RPAREN
+    (23) expression -> . ID
+
+    NUMBER          shift and go to state 18
+    LPAREN          shift and go to state 19
+    ID              shift and go to state 20
+
+    expression                     shift and go to state 59
+
+state 52
+
+    (18) comparison -> expression ET . expression
+    (9) expression -> . expression PLUS expression
+    (10) expression -> . expression MINUS expression
+    (11) expression -> . expression TIMES expression
+    (12) expression -> . expression DIVIDE expression
+    (13) expression -> . expression MODULO expression
+    (20) expression -> . NUMBER
+    (21) expression -> . LPAREN expression RPAREN
+    (23) expression -> . ID
+
+    NUMBER          shift and go to state 18
+    LPAREN          shift and go to state 19
+    ID              shift and go to state 20
+
+    expression                     shift and go to state 60
+
+state 53
+
+    (19) comparison -> expression NE . expression
+    (9) expression -> . expression PLUS expression
+    (10) expression -> . expression MINUS expression
+    (11) expression -> . expression TIMES expression
+    (12) expression -> . expression DIVIDE expression
+    (13) expression -> . expression MODULO expression
+    (20) expression -> . NUMBER
+    (21) expression -> . LPAREN expression RPAREN
+    (23) expression -> . ID
+
+    NUMBER          shift and go to state 18
+    LPAREN          shift and go to state 19
+    ID              shift and go to state 20
+
+    expression                     shift and go to state 61
+
+state 54
+
+    (30) command -> WHILE LPAREN comparison RPAREN . LBRACKET statement_list RBRACKET
+
+    LBRACKET        shift and go to state 62
+
+
+state 55
+
+    (24) command -> IF LPAREN comparison RPAREN LBRACKET . statement_list RBRACKET
+    (25) command -> IF LPAREN comparison RPAREN LBRACKET . statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET
+    (26) statement_list -> . statement_list statement
+    (27) statement_list -> . statement
+    (28) statement -> . command
+    (29) statement -> .
+    (3) command -> . PRINT print_list optend
+    (4) command -> . ECHO print_list optend
+    (22) command -> . ID EQUALS expression optend
+    (24) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
+    (25) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET
+    (30) command -> . WHILE LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
+
+  ! shift/reduce conflict for PRINT resolved as shift
+  ! shift/reduce conflict for ECHO resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+    RBRACKET        reduce using rule 29 (statement -> .)
+    PRINT           shift and go to state 7
+    ECHO            shift and go to state 8
+    ID              shift and go to state 9
+    IF              shift and go to state 10
+    WHILE           shift and go to state 11
+
+  ! PRINT           [ reduce using rule 29 (statement -> .) ]
+  ! ECHO            [ reduce using rule 29 (statement -> .) ]
+  ! ID              [ reduce using rule 29 (statement -> .) ]
+  ! IF              [ reduce using rule 29 (statement -> .) ]
+  ! WHILE           [ reduce using rule 29 (statement -> .) ]
+
+    statement_list                 shift and go to state 63
+    statement                      shift and go to state 5
+    command                        shift and go to state 6
+
+state 56
+
+    (14) comparison -> expression LTE expression .
+    (9) expression -> expression . PLUS expression
+    (10) expression -> expression . MINUS expression
+    (11) expression -> expression . TIMES expression
+    (12) expression -> expression . DIVIDE expression
+    (13) expression -> expression . MODULO expression
+
+    RPAREN          reduce using rule 14 (comparison -> expression LTE expression .)
+    PLUS            shift and go to state 28
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MODULO          shift and go to state 32
+
+
+state 57
+
+    (15) comparison -> expression GTE expression .
+    (9) expression -> expression . PLUS expression
+    (10) expression -> expression . MINUS expression
+    (11) expression -> expression . TIMES expression
+    (12) expression -> expression . DIVIDE expression
+    (13) expression -> expression . MODULO expression
+
+    RPAREN          reduce using rule 15 (comparison -> expression GTE expression .)
+    PLUS            shift and go to state 28
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MODULO          shift and go to state 32
+
+
+state 58
+
+    (16) comparison -> expression LT expression .
+    (9) expression -> expression . PLUS expression
+    (10) expression -> expression . MINUS expression
+    (11) expression -> expression . TIMES expression
+    (12) expression -> expression . DIVIDE expression
+    (13) expression -> expression . MODULO expression
+
+    RPAREN          reduce using rule 16 (comparison -> expression LT expression .)
+    PLUS            shift and go to state 28
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MODULO          shift and go to state 32
+
+
+state 59
+
+    (17) comparison -> expression GT expression .
+    (9) expression -> expression . PLUS expression
+    (10) expression -> expression . MINUS expression
+    (11) expression -> expression . TIMES expression
+    (12) expression -> expression . DIVIDE expression
+    (13) expression -> expression . MODULO expression
+
+    RPAREN          reduce using rule 17 (comparison -> expression GT expression .)
+    PLUS            shift and go to state 28
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MODULO          shift and go to state 32
+
+
+state 60
+
+    (18) comparison -> expression ET expression .
+    (9) expression -> expression . PLUS expression
+    (10) expression -> expression . MINUS expression
+    (11) expression -> expression . TIMES expression
+    (12) expression -> expression . DIVIDE expression
+    (13) expression -> expression . MODULO expression
+
+    RPAREN          reduce using rule 18 (comparison -> expression ET expression .)
+    PLUS            shift and go to state 28
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MODULO          shift and go to state 32
+
+
+state 61
+
+    (19) comparison -> expression NE expression .
+    (9) expression -> expression . PLUS expression
+    (10) expression -> expression . MINUS expression
+    (11) expression -> expression . TIMES expression
+    (12) expression -> expression . DIVIDE expression
+    (13) expression -> expression . MODULO expression
+
+    RPAREN          reduce using rule 19 (comparison -> expression NE expression .)
+    PLUS            shift and go to state 28
+    MINUS           shift and go to state 29
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+    MODULO          shift and go to state 32
+
+
+state 62
+
+    (30) command -> WHILE LPAREN comparison RPAREN LBRACKET . statement_list RBRACKET
+    (26) statement_list -> . statement_list statement
+    (27) statement_list -> . statement
+    (28) statement -> . command
+    (29) statement -> .
+    (3) command -> . PRINT print_list optend
+    (4) command -> . ECHO print_list optend
+    (22) command -> . ID EQUALS expression optend
+    (24) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
+    (25) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET
+    (30) command -> . WHILE LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
+
+  ! shift/reduce conflict for PRINT resolved as shift
+  ! shift/reduce conflict for ECHO resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+    RBRACKET        reduce using rule 29 (statement -> .)
+    PRINT           shift and go to state 7
+    ECHO            shift and go to state 8
+    ID              shift and go to state 9
+    IF              shift and go to state 10
+    WHILE           shift and go to state 11
+
+  ! PRINT           [ reduce using rule 29 (statement -> .) ]
+  ! ECHO            [ reduce using rule 29 (statement -> .) ]
+  ! ID              [ reduce using rule 29 (statement -> .) ]
+  ! IF              [ reduce using rule 29 (statement -> .) ]
+  ! WHILE           [ reduce using rule 29 (statement -> .) ]
+
+    statement_list                 shift and go to state 64
+    statement                      shift and go to state 5
+    command                        shift and go to state 6
+
+state 63
+
+    (24) command -> IF LPAREN comparison RPAREN LBRACKET statement_list . RBRACKET
+    (25) command -> IF LPAREN comparison RPAREN LBRACKET statement_list . RBRACKET ELSE LBRACKET statement_list RBRACKET
+    (26) statement_list -> statement_list . statement
+    (28) statement -> . command
+    (29) statement -> .
+    (3) command -> . PRINT print_list optend
+    (4) command -> . ECHO print_list optend
+    (22) command -> . ID EQUALS expression optend
+    (24) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
+    (25) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET
+    (30) command -> . WHILE LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
+
+  ! shift/reduce conflict for RBRACKET resolved as shift
+  ! shift/reduce conflict for PRINT resolved as shift
+  ! shift/reduce conflict for ECHO resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+    RBRACKET        shift and go to state 65
+    PRINT           shift and go to state 7
+    ECHO            shift and go to state 8
+    ID              shift and go to state 9
+    IF              shift and go to state 10
+    WHILE           shift and go to state 11
+
+  ! RBRACKET        [ reduce using rule 29 (statement -> .) ]
+  ! PRINT           [ reduce using rule 29 (statement -> .) ]
+  ! ECHO            [ reduce using rule 29 (statement -> .) ]
+  ! ID              [ reduce using rule 29 (statement -> .) ]
+  ! IF              [ reduce using rule 29 (statement -> .) ]
+  ! WHILE           [ reduce using rule 29 (statement -> .) ]
+
+    statement                      shift and go to state 13
+    command                        shift and go to state 6
+
+state 64
+
+    (30) command -> WHILE LPAREN comparison RPAREN LBRACKET statement_list . RBRACKET
+    (26) statement_list -> statement_list . statement
+    (28) statement -> . command
+    (29) statement -> .
+    (3) command -> . PRINT print_list optend
+    (4) command -> . ECHO print_list optend
+    (22) command -> . ID EQUALS expression optend
+    (24) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
+    (25) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET
+    (30) command -> . WHILE LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
+
+  ! shift/reduce conflict for RBRACKET resolved as shift
+  ! shift/reduce conflict for PRINT resolved as shift
+  ! shift/reduce conflict for ECHO resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+    RBRACKET        shift and go to state 66
+    PRINT           shift and go to state 7
+    ECHO            shift and go to state 8
+    ID              shift and go to state 9
+    IF              shift and go to state 10
+    WHILE           shift and go to state 11
+
+  ! RBRACKET        [ reduce using rule 29 (statement -> .) ]
+  ! PRINT           [ reduce using rule 29 (statement -> .) ]
+  ! ECHO            [ reduce using rule 29 (statement -> .) ]
+  ! ID              [ reduce using rule 29 (statement -> .) ]
+  ! IF              [ reduce using rule 29 (statement -> .) ]
+  ! WHILE           [ reduce using rule 29 (statement -> .) ]
+
+    statement                      shift and go to state 13
+    command                        shift and go to state 6
+
+state 65
+
+    (24) command -> IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET .
+    (25) command -> IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET . ELSE LBRACKET statement_list RBRACKET
+
+    CLOSE           reduce using rule 24 (command -> IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET .)
+    PRINT           reduce using rule 24 (command -> IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET .)
+    ECHO            reduce using rule 24 (command -> IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET .)
+    ID              reduce using rule 24 (command -> IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET .)
+    IF              reduce using rule 24 (command -> IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET .)
+    WHILE           reduce using rule 24 (command -> IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET .)
+    RBRACKET        reduce using rule 24 (command -> IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET .)
+    ELSE            shift and go to state 67
+
+
+state 66
+
+    (30) command -> WHILE LPAREN comparison RPAREN LBRACKET statement_list RBRACKET .
+
+    CLOSE           reduce using rule 30 (command -> WHILE LPAREN comparison RPAREN LBRACKET statement_list RBRACKET .)
+    PRINT           reduce using rule 30 (command -> WHILE LPAREN comparison RPAREN LBRACKET statement_list RBRACKET .)
+    ECHO            reduce using rule 30 (command -> WHILE LPAREN comparison RPAREN LBRACKET statement_list RBRACKET .)
+    ID              reduce using rule 30 (command -> WHILE LPAREN comparison RPAREN LBRACKET statement_list RBRACKET .)
+    IF              reduce using rule 30 (command -> WHILE LPAREN comparison RPAREN LBRACKET statement_list RBRACKET .)
+    WHILE           reduce using rule 30 (command -> WHILE LPAREN comparison RPAREN LBRACKET statement_list RBRACKET .)
+    RBRACKET        reduce using rule 30 (command -> WHILE LPAREN comparison RPAREN LBRACKET statement_list RBRACKET .)
+
+
+state 67
+
+    (25) command -> IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE . LBRACKET statement_list RBRACKET
+
+    LBRACKET        shift and go to state 68
+
+
+state 68
+
+    (25) command -> IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET . statement_list RBRACKET
+    (26) statement_list -> . statement_list statement
+    (27) statement_list -> . statement
+    (28) statement -> . command
+    (29) statement -> .
+    (3) command -> . PRINT print_list optend
+    (4) command -> . ECHO print_list optend
+    (22) command -> . ID EQUALS expression optend
+    (24) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
+    (25) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET
+    (30) command -> . WHILE LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
+
+  ! shift/reduce conflict for PRINT resolved as shift
+  ! shift/reduce conflict for ECHO resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+    RBRACKET        reduce using rule 29 (statement -> .)
+    PRINT           shift and go to state 7
+    ECHO            shift and go to state 8
+    ID              shift and go to state 9
+    IF              shift and go to state 10
+    WHILE           shift and go to state 11
+
+  ! PRINT           [ reduce using rule 29 (statement -> .) ]
+  ! ECHO            [ reduce using rule 29 (statement -> .) ]
+  ! ID              [ reduce using rule 29 (statement -> .) ]
+  ! IF              [ reduce using rule 29 (statement -> .) ]
+  ! WHILE           [ reduce using rule 29 (statement -> .) ]
+
+    statement_list                 shift and go to state 69
+    statement                      shift and go to state 5
+    command                        shift and go to state 6
+
+state 69
+
+    (25) command -> IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list . RBRACKET
+    (26) statement_list -> statement_list . statement
+    (28) statement -> . command
+    (29) statement -> .
+    (3) command -> . PRINT print_list optend
+    (4) command -> . ECHO print_list optend
+    (22) command -> . ID EQUALS expression optend
+    (24) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
+    (25) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET
+    (30) command -> . WHILE LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
+
+  ! shift/reduce conflict for RBRACKET resolved as shift
+  ! shift/reduce conflict for PRINT resolved as shift
+  ! shift/reduce conflict for ECHO resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+    RBRACKET        shift and go to state 70
+    PRINT           shift and go to state 7
+    ECHO            shift and go to state 8
+    ID              shift and go to state 9
+    IF              shift and go to state 10
+    WHILE           shift and go to state 11
+
+  ! RBRACKET        [ reduce using rule 29 (statement -> .) ]
+  ! PRINT           [ reduce using rule 29 (statement -> .) ]
+  ! ECHO            [ reduce using rule 29 (statement -> .) ]
+  ! ID              [ reduce using rule 29 (statement -> .) ]
+  ! IF              [ reduce using rule 29 (statement -> .) ]
+  ! WHILE           [ reduce using rule 29 (statement -> .) ]
+
+    statement                      shift and go to state 13
+    command                        shift and go to state 6
+
+state 70
+
+    (25) command -> IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET .
+
+    CLOSE           reduce using rule 25 (command -> IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET .)
+    PRINT           reduce using rule 25 (command -> IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET .)
+    ECHO            reduce using rule 25 (command -> IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET .)
+    ID              reduce using rule 25 (command -> IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET .)
+    IF              reduce using rule 25 (command -> IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET .)
+    WHILE           reduce using rule 25 (command -> IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET .)
+    RBRACKET        reduce using rule 25 (command -> IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for PRINT in state 2 resolved as shift
+WARNING: shift/reduce conflict for ECHO in state 2 resolved as shift
+WARNING: shift/reduce conflict for ID in state 2 resolved as shift
+WARNING: shift/reduce conflict for IF in state 2 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 2 resolved as shift
+WARNING: shift/reduce conflict for CLOSE in state 4 resolved as shift
+WARNING: shift/reduce conflict for PRINT in state 4 resolved as shift
+WARNING: shift/reduce conflict for ECHO in state 4 resolved as shift
+WARNING: shift/reduce conflict for ID in state 4 resolved as shift
+WARNING: shift/reduce conflict for IF in state 4 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 4 resolved as shift
+WARNING: shift/reduce conflict for PRINT in state 55 resolved as shift
+WARNING: shift/reduce conflict for ECHO in state 55 resolved as shift
+WARNING: shift/reduce conflict for ID in state 55 resolved as shift
+WARNING: shift/reduce conflict for IF in state 55 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 55 resolved as shift
+WARNING: shift/reduce conflict for PRINT in state 62 resolved as shift
+WARNING: shift/reduce conflict for ECHO in state 62 resolved as shift
+WARNING: shift/reduce conflict for ID in state 62 resolved as shift
+WARNING: shift/reduce conflict for IF in state 62 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 62 resolved as shift
+WARNING: shift/reduce conflict for RBRACKET in state 63 resolved as shift
+WARNING: shift/reduce conflict for PRINT in state 63 resolved as shift
+WARNING: shift/reduce conflict for ECHO in state 63 resolved as shift
+WARNING: shift/reduce conflict for ID in state 63 resolved as shift
+WARNING: shift/reduce conflict for IF in state 63 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 63 resolved as shift
+WARNING: shift/reduce conflict for RBRACKET in state 64 resolved as shift
+WARNING: shift/reduce conflict for PRINT in state 64 resolved as shift
+WARNING: shift/reduce conflict for ECHO in state 64 resolved as shift
+WARNING: shift/reduce conflict for ID in state 64 resolved as shift
+WARNING: shift/reduce conflict for IF in state 64 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 64 resolved as shift
+WARNING: shift/reduce conflict for PRINT in state 68 resolved as shift
+WARNING: shift/reduce conflict for ECHO in state 68 resolved as shift
+WARNING: shift/reduce conflict for ID in state 68 resolved as shift
+WARNING: shift/reduce conflict for IF in state 68 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 68 resolved as shift
+WARNING: shift/reduce conflict for RBRACKET in state 69 resolved as shift
+WARNING: shift/reduce conflict for PRINT in state 69 resolved as shift
+WARNING: shift/reduce conflict for ECHO in state 69 resolved as shift
+WARNING: shift/reduce conflict for ID in state 69 resolved as shift
+WARNING: shift/reduce conflict for IF in state 69 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 69 resolved as shift
