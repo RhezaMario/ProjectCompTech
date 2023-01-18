@@ -18,8 +18,8 @@ def p_program_error(p):
 
 # Print Statement
 def p_command_print(p):
-    '''command : PRINT print_list  optend
-        | ECHO print_list optend
+    '''command : PRINT print_list end
+        | ECHO print_list end
     '''
     p[0] = ('print', p[2], p[3])
 
@@ -40,8 +40,8 @@ def p_item_expr(p):
     '''print_item : expression'''
     p[0] = ("", p[1])
 
-# Aritmethic Expression
-def p_expression_binop(p):
+# Aritmetic
+def p_expression_operator(p):
     '''
     expression : expression PLUS expression 
         | expression MINUS expression 
@@ -49,30 +49,31 @@ def p_expression_binop(p):
         | expression DIVIDE expression 
         | expression MODULO expression 
     '''
-    p[0] = ('binop', p[2], p[1], p[3])
+    p[0] = ('operator', p[2], p[1], p[3])
 
 def p_expression_relop(p):
     '''
     comparison : expression LTE expression
+        | expression ET expression
+        | expression NE expression
         | expression GTE expression
         | expression LT expression
         | expression GT expression
-        | expression ET expression
-        | expression NE expression
+
     '''
     p[0] = ('relop', p[2], p[1], p[3])
 
-def p_expression_number(p):
+def p_expression_numeric(p):
     'expression : NUMBER'
-    p[0] = ('number', p[1])
+    p[0] = ('numeric', p[1])
 
 def p_expression_group(p):
     '''expression : LPAREN expression RPAREN'''
-    p[0] = ('grouped',p[2])
+    p[0] = ('blocks',p[2])
 
-def p_command_def_id(p):
-    '''command : ID EQUALS expression optend'''
-    p[0] = ('def_id', p[1], p[3], p[4])
+def p_command_var_asg(p):
+    '''command : ID EQUALS expression end'''
+    p[0] = ('var_asg', p[1], p[3], p[4])
 
 def p_expression_id(p):
     '''expression : ID'''
@@ -115,10 +116,10 @@ def p_error(p):
     if not p:
         print("SYNTAX ERROR AT EOF")
 
-# Optional semicolon on the end of some statement
-def p_optend(p):
+#  semicolon on the end of some statement
+def p_end(p):
     '''
-    optend : SEMICOLON
+    end : SEMICOLON
         |
     '''
     if len(p) == 2:

@@ -9,14 +9,14 @@ import Interpreter
 if len(sys.argv) == 2:
     with open(sys.argv[1]) as f:
         data = f.read()
-    prog = parsers.parse(data)
-    if not prog:
+    parsed = parsers.parse(data)
+    if not parsed:
         raise SystemExit
-    r = Interpreter.RInterpreter(prog)
+    translated = Interpreter.Interpreter(parsed)
     try:
-        r.run()
+        translated.run()
         raise SystemExit
     except RuntimeError:
             pass
 else:
-    r = Interpreter.RInterpreter([])
+    php = Interpreter.Interpreter([])

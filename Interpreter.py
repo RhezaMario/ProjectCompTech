@@ -2,26 +2,26 @@ import sys
 import math
 import random
 
-class RInterpreter:
+class Interpreter:
     def __init__(self, prog):
         self.prog = prog
 
     def eval(self, expr):
         etype = expr[0]
-        if etype == 'number':
+        if etype == 'numeric':
             return expr[1]
-        elif etype == 'grouped':
+        elif etype == 'blocks':
             return self.eval(expr[1])
-        elif etype == 'binop':
-            if expr[1] == '+':
-                return self.eval(expr[2]) + self.eval(expr[3])
-            elif expr[1] == '-':
-                return self.eval(expr[2]) - self.eval(expr[3])
-            elif expr[1] == '*':
+        elif etype == 'operator':
+            if expr[1] == '*':
                 return self.eval(expr[2]) * self.eval(expr[3])
             elif expr[1] == '/':
                 return float(self.eval(expr[2])) / self.eval(expr[3])
-            elif expr[1] == '%%':
+            elif expr[1] == '+':
+                return self.eval(expr[2]) + self.eval(expr[3])
+            elif expr[1] == '-':
+                return self.eval(expr[2]) - self.eval(expr[3])
+            elif expr[1] == '%':
                 return self.eval(expr[2]) % self.eval(expr[3])
         elif etype == 'id':
             id = expr[1]
@@ -35,26 +35,26 @@ class RInterpreter:
         etype = expr[1]
         lhs = self.eval(expr[2])
         rhs = self.eval(expr[3])
-        if etype == '<':
-            return lhs < rhs
-        elif etype == '<=':
-            return lhs <= rhs
-        elif etype == '>':
-            return lhs > rhs
-        elif etype == '>=':
-            return lhs >= rhs
-        elif etype == '==':
+        if etype == '==':
             return lhs == rhs
         elif etype == '!=':
             return lhs != rhs
+        elif etype == '<=':
+            return lhs <= rhs
+        elif etype == '<':
+            return lhs < rhs
+        elif etype == '>=':
+            return lhs >= rhs
+        elif etype == '>':
+            return lhs > rhs
 
     def assign(self, target, value):
         id = target
         self.ids[id] = self.eval(value)
 
     def run(self):
-        self.ids = {} # All identifiers
-        self.error = 0 # Indicates program error
+        self.ids = {} 
+        self.error = 0 
 
         if self.error:
             raise RuntimeError
@@ -64,7 +64,7 @@ class RInterpreter:
             
     def execute(self, instr):
         op = instr[0]
-            # PRINT STATEMENT
+        # PRINT 
         if op == 'print':
             plist = instr[1]
             out = ""
@@ -75,13 +75,13 @@ class RInterpreter:
                     out += str(eval)
             sys.stdout.write(out)
 
-        # ASSIGNING VARIABLE
-        elif op == 'def_id':
+        # variable asg
+        elif op == 'var_asg':
             target = instr[1]
             value = instr[2]
             self.assign(target, value)
 
-        # IF STATEMENT
+        # IF 
         elif op == 'if':
             relop = instr[1]
             if (self.releval(relop)):
@@ -91,7 +91,7 @@ class RInterpreter:
                 for instr2 in instr[4]:
                     self.execute(instr2)
 
-        # LOOP STATEMENT
+        # LOOP 
         elif op == 'while':
             while self.releval(instr[1]):
                 for instr2 in instr[2]:

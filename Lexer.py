@@ -38,7 +38,7 @@ t_PLUS = r'\+'
 t_MINUS = r'-'
 t_TIMES = r'\*'
 t_DIVIDE = r'/'
-t_MODULO = r'\%\%'
+t_MODULO = r'\%'
 t_EQUALS = r'='
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
@@ -50,7 +50,7 @@ t_GT = r'>'
 t_GTE = r'>='
 t_ET = r'=='
 t_NE = r'!='
-t_CONCAT = r'.'
+t_CONCAT = r'\.'
 t_SEMICOLON = r';'
 def t_OPEN(t):
     r'<\?php'
@@ -72,7 +72,7 @@ def t_NUMBER(t):
     return t    
 
 def t_ID(t):
-    r'([a-zA-Z][a-zA-Z_0-9]* | $[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*(?<!"))'
+    r'([a-zA-Z][a-zA-Z_0-9]* | \$[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*(?<!"))'
     t.type = reserved.get(t.value,'ID')
     return t
 
@@ -85,9 +85,10 @@ def t_error(t):
     t.lexer.skip(1)
 
 t_ignore = ' \t'
-t_ignore_COMMENT = r'\/.*'
+t_ignore_COMMENT = r'\//.*'
 
 lexer = lex.lex()
+
 lexer.input("")
 
 while True:

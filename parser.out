@@ -5,8 +5,8 @@ Grammar
 Rule 0     S' -> program
 Rule 1     program -> OPEN statement_list CLOSE
 Rule 2     program -> error
-Rule 3     command -> PRINT print_list optend
-Rule 4     command -> ECHO print_list optend
+Rule 3     command -> PRINT print_list end
+Rule 4     command -> ECHO print_list end
 Rule 5     print_list -> print_list CONCAT print_item
 Rule 6     print_list -> print_item
 Rule 7     print_item -> STRING
@@ -17,14 +17,14 @@ Rule 11    expression -> expression TIMES expression
 Rule 12    expression -> expression DIVIDE expression
 Rule 13    expression -> expression MODULO expression
 Rule 14    comparison -> expression LTE expression
-Rule 15    comparison -> expression GTE expression
-Rule 16    comparison -> expression LT expression
-Rule 17    comparison -> expression GT expression
-Rule 18    comparison -> expression ET expression
-Rule 19    comparison -> expression NE expression
+Rule 15    comparison -> expression ET expression
+Rule 16    comparison -> expression NE expression
+Rule 17    comparison -> expression GTE expression
+Rule 18    comparison -> expression LT expression
+Rule 19    comparison -> expression GT expression
 Rule 20    expression -> NUMBER
 Rule 21    expression -> LPAREN expression RPAREN
-Rule 22    command -> ID EQUALS expression optend
+Rule 22    command -> ID EQUALS expression end
 Rule 23    expression -> ID
 Rule 24    command -> IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
 Rule 25    command -> IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET
@@ -33,8 +33,8 @@ Rule 27    statement_list -> statement
 Rule 28    statement -> command
 Rule 29    statement -> <empty>
 Rule 30    command -> WHILE LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
-Rule 31    optend -> SEMICOLON
-Rule 32    optend -> <empty>
+Rule 31    end -> SEMICOLON
+Rule 32    end -> <empty>
 
 Terminals, with rules where they appear
 
@@ -44,18 +44,18 @@ DIVIDE               : 12
 ECHO                 : 4
 ELSE                 : 25
 EQUALS               : 22
-ET                   : 18
-GT                   : 17
-GTE                  : 15
+ET                   : 15
+GT                   : 19
+GTE                  : 17
 ID                   : 22 23
 IF                   : 24 25
 LBRACKET             : 24 25 25 30
 LPAREN               : 21 24 25 30
-LT                   : 16
+LT                   : 18
 LTE                  : 14
 MINUS                : 10
 MODULO               : 13
-NE                   : 19
+NE                   : 16
 NUMBER               : 20
 OPEN                 : 1
 PLUS                 : 9
@@ -72,8 +72,8 @@ Nonterminals, with rules where they appear
 
 command              : 28
 comparison           : 24 25 30
+end                  : 3 4 22
 expression           : 8 9 9 10 10 11 11 12 12 13 13 14 14 15 15 16 16 17 17 18 18 19 19 21 22
-optend               : 3 4 22
 print_item           : 5 6
 print_list           : 3 4 5
 program              : 0
@@ -106,9 +106,9 @@ state 2
     (27) statement_list -> . statement
     (28) statement -> . command
     (29) statement -> .
-    (3) command -> . PRINT print_list optend
-    (4) command -> . ECHO print_list optend
-    (22) command -> . ID EQUALS expression optend
+    (3) command -> . PRINT print_list end
+    (4) command -> . ECHO print_list end
+    (22) command -> . ID EQUALS expression end
     (24) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
     (25) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET
     (30) command -> . WHILE LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
@@ -148,9 +148,9 @@ state 4
     (26) statement_list -> statement_list . statement
     (28) statement -> . command
     (29) statement -> .
-    (3) command -> . PRINT print_list optend
-    (4) command -> . ECHO print_list optend
-    (22) command -> . ID EQUALS expression optend
+    (3) command -> . PRINT print_list end
+    (4) command -> . ECHO print_list end
+    (22) command -> . ID EQUALS expression end
     (24) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
     (25) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET
     (30) command -> . WHILE LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
@@ -206,7 +206,7 @@ state 6
 
 state 7
 
-    (3) command -> PRINT . print_list optend
+    (3) command -> PRINT . print_list end
     (5) print_list -> . print_list CONCAT print_item
     (6) print_list -> . print_item
     (7) print_item -> . STRING
@@ -231,7 +231,7 @@ state 7
 
 state 8
 
-    (4) command -> ECHO . print_list optend
+    (4) command -> ECHO . print_list end
     (5) print_list -> . print_list CONCAT print_item
     (6) print_list -> . print_item
     (7) print_item -> . STRING
@@ -256,7 +256,7 @@ state 8
 
 state 9
 
-    (22) command -> ID . EQUALS expression optend
+    (22) command -> ID . EQUALS expression end
 
     EQUALS          shift and go to state 22
 
@@ -298,22 +298,22 @@ state 13
 
 state 14
 
-    (3) command -> PRINT print_list . optend
+    (3) command -> PRINT print_list . end
     (5) print_list -> print_list . CONCAT print_item
-    (31) optend -> . SEMICOLON
-    (32) optend -> .
+    (31) end -> . SEMICOLON
+    (32) end -> .
 
     CONCAT          shift and go to state 26
     SEMICOLON       shift and go to state 27
-    CLOSE           reduce using rule 32 (optend -> .)
-    PRINT           reduce using rule 32 (optend -> .)
-    ECHO            reduce using rule 32 (optend -> .)
-    ID              reduce using rule 32 (optend -> .)
-    IF              reduce using rule 32 (optend -> .)
-    WHILE           reduce using rule 32 (optend -> .)
-    RBRACKET        reduce using rule 32 (optend -> .)
+    CLOSE           reduce using rule 32 (end -> .)
+    PRINT           reduce using rule 32 (end -> .)
+    ECHO            reduce using rule 32 (end -> .)
+    ID              reduce using rule 32 (end -> .)
+    IF              reduce using rule 32 (end -> .)
+    WHILE           reduce using rule 32 (end -> .)
+    RBRACKET        reduce using rule 32 (end -> .)
 
-    optend                         shift and go to state 25
+    end                            shift and go to state 25
 
 state 15
 
@@ -390,11 +390,11 @@ state 18
     RBRACKET        reduce using rule 20 (expression -> NUMBER .)
     RPAREN          reduce using rule 20 (expression -> NUMBER .)
     LTE             reduce using rule 20 (expression -> NUMBER .)
+    ET              reduce using rule 20 (expression -> NUMBER .)
+    NE              reduce using rule 20 (expression -> NUMBER .)
     GTE             reduce using rule 20 (expression -> NUMBER .)
     LT              reduce using rule 20 (expression -> NUMBER .)
     GT              reduce using rule 20 (expression -> NUMBER .)
-    ET              reduce using rule 20 (expression -> NUMBER .)
-    NE              reduce using rule 20 (expression -> NUMBER .)
 
 
 state 19
@@ -435,35 +435,35 @@ state 20
     RBRACKET        reduce using rule 23 (expression -> ID .)
     RPAREN          reduce using rule 23 (expression -> ID .)
     LTE             reduce using rule 23 (expression -> ID .)
+    ET              reduce using rule 23 (expression -> ID .)
+    NE              reduce using rule 23 (expression -> ID .)
     GTE             reduce using rule 23 (expression -> ID .)
     LT              reduce using rule 23 (expression -> ID .)
     GT              reduce using rule 23 (expression -> ID .)
-    ET              reduce using rule 23 (expression -> ID .)
-    NE              reduce using rule 23 (expression -> ID .)
 
 
 state 21
 
-    (4) command -> ECHO print_list . optend
+    (4) command -> ECHO print_list . end
     (5) print_list -> print_list . CONCAT print_item
-    (31) optend -> . SEMICOLON
-    (32) optend -> .
+    (31) end -> . SEMICOLON
+    (32) end -> .
 
     CONCAT          shift and go to state 26
     SEMICOLON       shift and go to state 27
-    CLOSE           reduce using rule 32 (optend -> .)
-    PRINT           reduce using rule 32 (optend -> .)
-    ECHO            reduce using rule 32 (optend -> .)
-    ID              reduce using rule 32 (optend -> .)
-    IF              reduce using rule 32 (optend -> .)
-    WHILE           reduce using rule 32 (optend -> .)
-    RBRACKET        reduce using rule 32 (optend -> .)
+    CLOSE           reduce using rule 32 (end -> .)
+    PRINT           reduce using rule 32 (end -> .)
+    ECHO            reduce using rule 32 (end -> .)
+    ID              reduce using rule 32 (end -> .)
+    IF              reduce using rule 32 (end -> .)
+    WHILE           reduce using rule 32 (end -> .)
+    RBRACKET        reduce using rule 32 (end -> .)
 
-    optend                         shift and go to state 34
+    end                            shift and go to state 34
 
 state 22
 
-    (22) command -> ID EQUALS . expression optend
+    (22) command -> ID EQUALS . expression end
     (9) expression -> . expression PLUS expression
     (10) expression -> . expression MINUS expression
     (11) expression -> . expression TIMES expression
@@ -484,11 +484,11 @@ state 23
     (24) command -> IF LPAREN . comparison RPAREN LBRACKET statement_list RBRACKET
     (25) command -> IF LPAREN . comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET
     (14) comparison -> . expression LTE expression
-    (15) comparison -> . expression GTE expression
-    (16) comparison -> . expression LT expression
-    (17) comparison -> . expression GT expression
-    (18) comparison -> . expression ET expression
-    (19) comparison -> . expression NE expression
+    (15) comparison -> . expression ET expression
+    (16) comparison -> . expression NE expression
+    (17) comparison -> . expression GTE expression
+    (18) comparison -> . expression LT expression
+    (19) comparison -> . expression GT expression
     (9) expression -> . expression PLUS expression
     (10) expression -> . expression MINUS expression
     (11) expression -> . expression TIMES expression
@@ -509,11 +509,11 @@ state 24
 
     (30) command -> WHILE LPAREN . comparison RPAREN LBRACKET statement_list RBRACKET
     (14) comparison -> . expression LTE expression
-    (15) comparison -> . expression GTE expression
-    (16) comparison -> . expression LT expression
-    (17) comparison -> . expression GT expression
-    (18) comparison -> . expression ET expression
-    (19) comparison -> . expression NE expression
+    (15) comparison -> . expression ET expression
+    (16) comparison -> . expression NE expression
+    (17) comparison -> . expression GTE expression
+    (18) comparison -> . expression LT expression
+    (19) comparison -> . expression GT expression
     (9) expression -> . expression PLUS expression
     (10) expression -> . expression MINUS expression
     (11) expression -> . expression TIMES expression
@@ -532,15 +532,15 @@ state 24
 
 state 25
 
-    (3) command -> PRINT print_list optend .
+    (3) command -> PRINT print_list end .
 
-    CLOSE           reduce using rule 3 (command -> PRINT print_list optend .)
-    PRINT           reduce using rule 3 (command -> PRINT print_list optend .)
-    ECHO            reduce using rule 3 (command -> PRINT print_list optend .)
-    ID              reduce using rule 3 (command -> PRINT print_list optend .)
-    IF              reduce using rule 3 (command -> PRINT print_list optend .)
-    WHILE           reduce using rule 3 (command -> PRINT print_list optend .)
-    RBRACKET        reduce using rule 3 (command -> PRINT print_list optend .)
+    CLOSE           reduce using rule 3 (command -> PRINT print_list end .)
+    PRINT           reduce using rule 3 (command -> PRINT print_list end .)
+    ECHO            reduce using rule 3 (command -> PRINT print_list end .)
+    ID              reduce using rule 3 (command -> PRINT print_list end .)
+    IF              reduce using rule 3 (command -> PRINT print_list end .)
+    WHILE           reduce using rule 3 (command -> PRINT print_list end .)
+    RBRACKET        reduce using rule 3 (command -> PRINT print_list end .)
 
 
 state 26
@@ -567,15 +567,15 @@ state 26
 
 state 27
 
-    (31) optend -> SEMICOLON .
+    (31) end -> SEMICOLON .
 
-    CLOSE           reduce using rule 31 (optend -> SEMICOLON .)
-    PRINT           reduce using rule 31 (optend -> SEMICOLON .)
-    ECHO            reduce using rule 31 (optend -> SEMICOLON .)
-    ID              reduce using rule 31 (optend -> SEMICOLON .)
-    IF              reduce using rule 31 (optend -> SEMICOLON .)
-    WHILE           reduce using rule 31 (optend -> SEMICOLON .)
-    RBRACKET        reduce using rule 31 (optend -> SEMICOLON .)
+    CLOSE           reduce using rule 31 (end -> SEMICOLON .)
+    PRINT           reduce using rule 31 (end -> SEMICOLON .)
+    ECHO            reduce using rule 31 (end -> SEMICOLON .)
+    ID              reduce using rule 31 (end -> SEMICOLON .)
+    IF              reduce using rule 31 (end -> SEMICOLON .)
+    WHILE           reduce using rule 31 (end -> SEMICOLON .)
+    RBRACKET        reduce using rule 31 (end -> SEMICOLON .)
 
 
 state 28
@@ -687,27 +687,27 @@ state 33
 
 state 34
 
-    (4) command -> ECHO print_list optend .
+    (4) command -> ECHO print_list end .
 
-    CLOSE           reduce using rule 4 (command -> ECHO print_list optend .)
-    PRINT           reduce using rule 4 (command -> ECHO print_list optend .)
-    ECHO            reduce using rule 4 (command -> ECHO print_list optend .)
-    ID              reduce using rule 4 (command -> ECHO print_list optend .)
-    IF              reduce using rule 4 (command -> ECHO print_list optend .)
-    WHILE           reduce using rule 4 (command -> ECHO print_list optend .)
-    RBRACKET        reduce using rule 4 (command -> ECHO print_list optend .)
+    CLOSE           reduce using rule 4 (command -> ECHO print_list end .)
+    PRINT           reduce using rule 4 (command -> ECHO print_list end .)
+    ECHO            reduce using rule 4 (command -> ECHO print_list end .)
+    ID              reduce using rule 4 (command -> ECHO print_list end .)
+    IF              reduce using rule 4 (command -> ECHO print_list end .)
+    WHILE           reduce using rule 4 (command -> ECHO print_list end .)
+    RBRACKET        reduce using rule 4 (command -> ECHO print_list end .)
 
 
 state 35
 
-    (22) command -> ID EQUALS expression . optend
+    (22) command -> ID EQUALS expression . end
     (9) expression -> expression . PLUS expression
     (10) expression -> expression . MINUS expression
     (11) expression -> expression . TIMES expression
     (12) expression -> expression . DIVIDE expression
     (13) expression -> expression . MODULO expression
-    (31) optend -> . SEMICOLON
-    (32) optend -> .
+    (31) end -> . SEMICOLON
+    (32) end -> .
 
     PLUS            shift and go to state 28
     MINUS           shift and go to state 29
@@ -715,15 +715,15 @@ state 35
     DIVIDE          shift and go to state 31
     MODULO          shift and go to state 32
     SEMICOLON       shift and go to state 27
-    CLOSE           reduce using rule 32 (optend -> .)
-    PRINT           reduce using rule 32 (optend -> .)
-    ECHO            reduce using rule 32 (optend -> .)
-    ID              reduce using rule 32 (optend -> .)
-    IF              reduce using rule 32 (optend -> .)
-    WHILE           reduce using rule 32 (optend -> .)
-    RBRACKET        reduce using rule 32 (optend -> .)
+    CLOSE           reduce using rule 32 (end -> .)
+    PRINT           reduce using rule 32 (end -> .)
+    ECHO            reduce using rule 32 (end -> .)
+    ID              reduce using rule 32 (end -> .)
+    IF              reduce using rule 32 (end -> .)
+    WHILE           reduce using rule 32 (end -> .)
+    RBRACKET        reduce using rule 32 (end -> .)
 
-    optend                         shift and go to state 46
+    end                            shift and go to state 46
 
 state 36
 
@@ -736,11 +736,11 @@ state 36
 state 37
 
     (14) comparison -> expression . LTE expression
-    (15) comparison -> expression . GTE expression
-    (16) comparison -> expression . LT expression
-    (17) comparison -> expression . GT expression
-    (18) comparison -> expression . ET expression
-    (19) comparison -> expression . NE expression
+    (15) comparison -> expression . ET expression
+    (16) comparison -> expression . NE expression
+    (17) comparison -> expression . GTE expression
+    (18) comparison -> expression . LT expression
+    (19) comparison -> expression . GT expression
     (9) expression -> expression . PLUS expression
     (10) expression -> expression . MINUS expression
     (11) expression -> expression . TIMES expression
@@ -748,11 +748,11 @@ state 37
     (13) expression -> expression . MODULO expression
 
     LTE             shift and go to state 48
-    GTE             shift and go to state 49
-    LT              shift and go to state 50
-    GT              shift and go to state 51
-    ET              shift and go to state 52
-    NE              shift and go to state 53
+    ET              shift and go to state 49
+    NE              shift and go to state 50
+    GTE             shift and go to state 51
+    LT              shift and go to state 52
+    GT              shift and go to state 53
     PLUS            shift and go to state 28
     MINUS           shift and go to state 29
     TIMES           shift and go to state 30
@@ -804,11 +804,11 @@ state 40
     RBRACKET        reduce using rule 9 (expression -> expression PLUS expression .)
     RPAREN          reduce using rule 9 (expression -> expression PLUS expression .)
     LTE             reduce using rule 9 (expression -> expression PLUS expression .)
+    ET              reduce using rule 9 (expression -> expression PLUS expression .)
+    NE              reduce using rule 9 (expression -> expression PLUS expression .)
     GTE             reduce using rule 9 (expression -> expression PLUS expression .)
     LT              reduce using rule 9 (expression -> expression PLUS expression .)
     GT              reduce using rule 9 (expression -> expression PLUS expression .)
-    ET              reduce using rule 9 (expression -> expression PLUS expression .)
-    NE              reduce using rule 9 (expression -> expression PLUS expression .)
     TIMES           shift and go to state 30
     DIVIDE          shift and go to state 31
     MODULO          shift and go to state 32
@@ -842,11 +842,11 @@ state 41
     RBRACKET        reduce using rule 10 (expression -> expression MINUS expression .)
     RPAREN          reduce using rule 10 (expression -> expression MINUS expression .)
     LTE             reduce using rule 10 (expression -> expression MINUS expression .)
+    ET              reduce using rule 10 (expression -> expression MINUS expression .)
+    NE              reduce using rule 10 (expression -> expression MINUS expression .)
     GTE             reduce using rule 10 (expression -> expression MINUS expression .)
     LT              reduce using rule 10 (expression -> expression MINUS expression .)
     GT              reduce using rule 10 (expression -> expression MINUS expression .)
-    ET              reduce using rule 10 (expression -> expression MINUS expression .)
-    NE              reduce using rule 10 (expression -> expression MINUS expression .)
     TIMES           shift and go to state 30
     DIVIDE          shift and go to state 31
     MODULO          shift and go to state 32
@@ -883,11 +883,11 @@ state 42
     RBRACKET        reduce using rule 11 (expression -> expression TIMES expression .)
     RPAREN          reduce using rule 11 (expression -> expression TIMES expression .)
     LTE             reduce using rule 11 (expression -> expression TIMES expression .)
+    ET              reduce using rule 11 (expression -> expression TIMES expression .)
+    NE              reduce using rule 11 (expression -> expression TIMES expression .)
     GTE             reduce using rule 11 (expression -> expression TIMES expression .)
     LT              reduce using rule 11 (expression -> expression TIMES expression .)
     GT              reduce using rule 11 (expression -> expression TIMES expression .)
-    ET              reduce using rule 11 (expression -> expression TIMES expression .)
-    NE              reduce using rule 11 (expression -> expression TIMES expression .)
 
   ! PLUS            [ shift and go to state 28 ]
   ! MINUS           [ shift and go to state 29 ]
@@ -921,11 +921,11 @@ state 43
     RBRACKET        reduce using rule 12 (expression -> expression DIVIDE expression .)
     RPAREN          reduce using rule 12 (expression -> expression DIVIDE expression .)
     LTE             reduce using rule 12 (expression -> expression DIVIDE expression .)
+    ET              reduce using rule 12 (expression -> expression DIVIDE expression .)
+    NE              reduce using rule 12 (expression -> expression DIVIDE expression .)
     GTE             reduce using rule 12 (expression -> expression DIVIDE expression .)
     LT              reduce using rule 12 (expression -> expression DIVIDE expression .)
     GT              reduce using rule 12 (expression -> expression DIVIDE expression .)
-    ET              reduce using rule 12 (expression -> expression DIVIDE expression .)
-    NE              reduce using rule 12 (expression -> expression DIVIDE expression .)
 
   ! PLUS            [ shift and go to state 28 ]
   ! MINUS           [ shift and go to state 29 ]
@@ -959,11 +959,11 @@ state 44
     RBRACKET        reduce using rule 13 (expression -> expression MODULO expression .)
     RPAREN          reduce using rule 13 (expression -> expression MODULO expression .)
     LTE             reduce using rule 13 (expression -> expression MODULO expression .)
+    ET              reduce using rule 13 (expression -> expression MODULO expression .)
+    NE              reduce using rule 13 (expression -> expression MODULO expression .)
     GTE             reduce using rule 13 (expression -> expression MODULO expression .)
     LT              reduce using rule 13 (expression -> expression MODULO expression .)
     GT              reduce using rule 13 (expression -> expression MODULO expression .)
-    ET              reduce using rule 13 (expression -> expression MODULO expression .)
-    NE              reduce using rule 13 (expression -> expression MODULO expression .)
 
   ! PLUS            [ shift and go to state 28 ]
   ! MINUS           [ shift and go to state 29 ]
@@ -992,24 +992,24 @@ state 45
     RBRACKET        reduce using rule 21 (expression -> LPAREN expression RPAREN .)
     RPAREN          reduce using rule 21 (expression -> LPAREN expression RPAREN .)
     LTE             reduce using rule 21 (expression -> LPAREN expression RPAREN .)
+    ET              reduce using rule 21 (expression -> LPAREN expression RPAREN .)
+    NE              reduce using rule 21 (expression -> LPAREN expression RPAREN .)
     GTE             reduce using rule 21 (expression -> LPAREN expression RPAREN .)
     LT              reduce using rule 21 (expression -> LPAREN expression RPAREN .)
     GT              reduce using rule 21 (expression -> LPAREN expression RPAREN .)
-    ET              reduce using rule 21 (expression -> LPAREN expression RPAREN .)
-    NE              reduce using rule 21 (expression -> LPAREN expression RPAREN .)
 
 
 state 46
 
-    (22) command -> ID EQUALS expression optend .
+    (22) command -> ID EQUALS expression end .
 
-    CLOSE           reduce using rule 22 (command -> ID EQUALS expression optend .)
-    PRINT           reduce using rule 22 (command -> ID EQUALS expression optend .)
-    ECHO            reduce using rule 22 (command -> ID EQUALS expression optend .)
-    ID              reduce using rule 22 (command -> ID EQUALS expression optend .)
-    IF              reduce using rule 22 (command -> ID EQUALS expression optend .)
-    WHILE           reduce using rule 22 (command -> ID EQUALS expression optend .)
-    RBRACKET        reduce using rule 22 (command -> ID EQUALS expression optend .)
+    CLOSE           reduce using rule 22 (command -> ID EQUALS expression end .)
+    PRINT           reduce using rule 22 (command -> ID EQUALS expression end .)
+    ECHO            reduce using rule 22 (command -> ID EQUALS expression end .)
+    ID              reduce using rule 22 (command -> ID EQUALS expression end .)
+    IF              reduce using rule 22 (command -> ID EQUALS expression end .)
+    WHILE           reduce using rule 22 (command -> ID EQUALS expression end .)
+    RBRACKET        reduce using rule 22 (command -> ID EQUALS expression end .)
 
 
 state 47
@@ -1040,7 +1040,7 @@ state 48
 
 state 49
 
-    (15) comparison -> expression GTE . expression
+    (15) comparison -> expression ET . expression
     (9) expression -> . expression PLUS expression
     (10) expression -> . expression MINUS expression
     (11) expression -> . expression TIMES expression
@@ -1058,7 +1058,7 @@ state 49
 
 state 50
 
-    (16) comparison -> expression LT . expression
+    (16) comparison -> expression NE . expression
     (9) expression -> . expression PLUS expression
     (10) expression -> . expression MINUS expression
     (11) expression -> . expression TIMES expression
@@ -1076,7 +1076,7 @@ state 50
 
 state 51
 
-    (17) comparison -> expression GT . expression
+    (17) comparison -> expression GTE . expression
     (9) expression -> . expression PLUS expression
     (10) expression -> . expression MINUS expression
     (11) expression -> . expression TIMES expression
@@ -1094,7 +1094,7 @@ state 51
 
 state 52
 
-    (18) comparison -> expression ET . expression
+    (18) comparison -> expression LT . expression
     (9) expression -> . expression PLUS expression
     (10) expression -> . expression MINUS expression
     (11) expression -> . expression TIMES expression
@@ -1112,7 +1112,7 @@ state 52
 
 state 53
 
-    (19) comparison -> expression NE . expression
+    (19) comparison -> expression GT . expression
     (9) expression -> . expression PLUS expression
     (10) expression -> . expression MINUS expression
     (11) expression -> . expression TIMES expression
@@ -1143,9 +1143,9 @@ state 55
     (27) statement_list -> . statement
     (28) statement -> . command
     (29) statement -> .
-    (3) command -> . PRINT print_list optend
-    (4) command -> . ECHO print_list optend
-    (22) command -> . ID EQUALS expression optend
+    (3) command -> . PRINT print_list end
+    (4) command -> . ECHO print_list end
+    (22) command -> . ID EQUALS expression end
     (24) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
     (25) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET
     (30) command -> . WHILE LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
@@ -1191,14 +1191,14 @@ state 56
 
 state 57
 
-    (15) comparison -> expression GTE expression .
+    (15) comparison -> expression ET expression .
     (9) expression -> expression . PLUS expression
     (10) expression -> expression . MINUS expression
     (11) expression -> expression . TIMES expression
     (12) expression -> expression . DIVIDE expression
     (13) expression -> expression . MODULO expression
 
-    RPAREN          reduce using rule 15 (comparison -> expression GTE expression .)
+    RPAREN          reduce using rule 15 (comparison -> expression ET expression .)
     PLUS            shift and go to state 28
     MINUS           shift and go to state 29
     TIMES           shift and go to state 30
@@ -1208,14 +1208,14 @@ state 57
 
 state 58
 
-    (16) comparison -> expression LT expression .
+    (16) comparison -> expression NE expression .
     (9) expression -> expression . PLUS expression
     (10) expression -> expression . MINUS expression
     (11) expression -> expression . TIMES expression
     (12) expression -> expression . DIVIDE expression
     (13) expression -> expression . MODULO expression
 
-    RPAREN          reduce using rule 16 (comparison -> expression LT expression .)
+    RPAREN          reduce using rule 16 (comparison -> expression NE expression .)
     PLUS            shift and go to state 28
     MINUS           shift and go to state 29
     TIMES           shift and go to state 30
@@ -1225,14 +1225,14 @@ state 58
 
 state 59
 
-    (17) comparison -> expression GT expression .
+    (17) comparison -> expression GTE expression .
     (9) expression -> expression . PLUS expression
     (10) expression -> expression . MINUS expression
     (11) expression -> expression . TIMES expression
     (12) expression -> expression . DIVIDE expression
     (13) expression -> expression . MODULO expression
 
-    RPAREN          reduce using rule 17 (comparison -> expression GT expression .)
+    RPAREN          reduce using rule 17 (comparison -> expression GTE expression .)
     PLUS            shift and go to state 28
     MINUS           shift and go to state 29
     TIMES           shift and go to state 30
@@ -1242,14 +1242,14 @@ state 59
 
 state 60
 
-    (18) comparison -> expression ET expression .
+    (18) comparison -> expression LT expression .
     (9) expression -> expression . PLUS expression
     (10) expression -> expression . MINUS expression
     (11) expression -> expression . TIMES expression
     (12) expression -> expression . DIVIDE expression
     (13) expression -> expression . MODULO expression
 
-    RPAREN          reduce using rule 18 (comparison -> expression ET expression .)
+    RPAREN          reduce using rule 18 (comparison -> expression LT expression .)
     PLUS            shift and go to state 28
     MINUS           shift and go to state 29
     TIMES           shift and go to state 30
@@ -1259,14 +1259,14 @@ state 60
 
 state 61
 
-    (19) comparison -> expression NE expression .
+    (19) comparison -> expression GT expression .
     (9) expression -> expression . PLUS expression
     (10) expression -> expression . MINUS expression
     (11) expression -> expression . TIMES expression
     (12) expression -> expression . DIVIDE expression
     (13) expression -> expression . MODULO expression
 
-    RPAREN          reduce using rule 19 (comparison -> expression NE expression .)
+    RPAREN          reduce using rule 19 (comparison -> expression GT expression .)
     PLUS            shift and go to state 28
     MINUS           shift and go to state 29
     TIMES           shift and go to state 30
@@ -1281,9 +1281,9 @@ state 62
     (27) statement_list -> . statement
     (28) statement -> . command
     (29) statement -> .
-    (3) command -> . PRINT print_list optend
-    (4) command -> . ECHO print_list optend
-    (22) command -> . ID EQUALS expression optend
+    (3) command -> . PRINT print_list end
+    (4) command -> . ECHO print_list end
+    (22) command -> . ID EQUALS expression end
     (24) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
     (25) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET
     (30) command -> . WHILE LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
@@ -1317,9 +1317,9 @@ state 63
     (26) statement_list -> statement_list . statement
     (28) statement -> . command
     (29) statement -> .
-    (3) command -> . PRINT print_list optend
-    (4) command -> . ECHO print_list optend
-    (22) command -> . ID EQUALS expression optend
+    (3) command -> . PRINT print_list end
+    (4) command -> . ECHO print_list end
+    (22) command -> . ID EQUALS expression end
     (24) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
     (25) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET
     (30) command -> . WHILE LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
@@ -1353,9 +1353,9 @@ state 64
     (26) statement_list -> statement_list . statement
     (28) statement -> . command
     (29) statement -> .
-    (3) command -> . PRINT print_list optend
-    (4) command -> . ECHO print_list optend
-    (22) command -> . ID EQUALS expression optend
+    (3) command -> . PRINT print_list end
+    (4) command -> . ECHO print_list end
+    (22) command -> . ID EQUALS expression end
     (24) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
     (25) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET
     (30) command -> . WHILE LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
@@ -1425,9 +1425,9 @@ state 68
     (27) statement_list -> . statement
     (28) statement -> . command
     (29) statement -> .
-    (3) command -> . PRINT print_list optend
-    (4) command -> . ECHO print_list optend
-    (22) command -> . ID EQUALS expression optend
+    (3) command -> . PRINT print_list end
+    (4) command -> . ECHO print_list end
+    (22) command -> . ID EQUALS expression end
     (24) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
     (25) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET
     (30) command -> . WHILE LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
@@ -1460,9 +1460,9 @@ state 69
     (26) statement_list -> statement_list . statement
     (28) statement -> . command
     (29) statement -> .
-    (3) command -> . PRINT print_list optend
-    (4) command -> . ECHO print_list optend
-    (22) command -> . ID EQUALS expression optend
+    (3) command -> . PRINT print_list end
+    (4) command -> . ECHO print_list end
+    (22) command -> . ID EQUALS expression end
     (24) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
     (25) command -> . IF LPAREN comparison RPAREN LBRACKET statement_list RBRACKET ELSE LBRACKET statement_list RBRACKET
     (30) command -> . WHILE LPAREN comparison RPAREN LBRACKET statement_list RBRACKET
